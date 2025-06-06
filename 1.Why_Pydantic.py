@@ -1,8 +1,12 @@
 def insert_paitient_data(name : str,age : int):
-    print(name)
-    print(age)
-    print("Inserted into the Database")
+    if type(name) == str and type(age) == int:    
+        print(name)
+        print(age)
+        print("Inserted into the Database")
+    else:
+        raise TypeError('Incorrect Data type')    
 
 
 
+#Insert the deatils
 insert_paitient_data('Ram','30')    
