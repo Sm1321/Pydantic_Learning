@@ -1,14 +1,15 @@
 from pydantic import BaseModel,EmailStr,AnyUrl,Field
-from typing import List,Dict,Optional
+from typing import List,Dict,Optional,Annotated
 
 class Patient(BaseModel):
-    name :str = Field(max_length= 120)
+    name : Annotated[str,Field(max_length= 120,title = 'Name of the patient',
+                               description = "Give the nmae of the patinet in less than 120 Chars",examples = ['Rahul','Rama Krishna'])]
     age : int
     email:EmailStr
     linkdin_url: AnyUrl
-    weight : float = Field(gt = 0,lt = 120)
+    weight : Annotated[float,Field(gt = 0,lt = 120,strict = True )]
     # height: float
-    married: bool = False
+    married : Annotated[bool,Field(default = None,description = 'Is the patient Married or Not')]
     allergies: Optional[List[str]]= None  #we should not use this list command ,List will Check the details inside the data so.
     contact_details: Dict[str,str] #we should this not use  dict command 
 
@@ -39,7 +40,7 @@ patient_info = {
     'name': 'Ram',
     'age': 30,  
     'email':'xyz@gmail.com',
-    'weight': 75.2,
+    'weight': '75.2',
     'linkdin_url':'htpp:linkdin.com',
     'married': True,
     'allergies': ['pollen', 'dust'],

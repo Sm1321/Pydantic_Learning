@@ -1,0 +1,143 @@
+from pydantic import BaseModel,EmailStr,AnyUrl,Field,field_validator
+from typing import List,Dict,Optional,Annotated
+
+class Patient(BaseModel):
+    name : Annotated[str,Field(max_length= 120,title = 'Name of the patient',
+                               description = "Give the nmae of the patinet in less than 120 Chars",examples = ['Rahul','Rama Krishna'])]
+    age : int
+    email:EmailStr
+    linkdin_url: AnyUrl
+    weight : Annotated[float,Field(gt = 0,lt = 120,strict = True )]
+    # height: float
+    married : Annotated[bool,Field(default = None,description = 'Is the patient Married or Not')]
+    allergies: Optional[List[str]]= None  #we should not use this list command ,List will Check the details inside the data so.
+    contact_details: Dict[str,str] #we should this not use  dict command 
+    #add this field_validator
+    #validor for email
+    @field_validator('email')
+    @classmethod
+    def email_validator(cls,value):
+        valid_domains = ['hdfc.com','icic.com']
+        #Anc@gmail.com
+        domain_name = value.split('@')[-1]
+        if domain_name not in valid_domains:
+            raise ValueError('Not a Valid Domain')
+
+        return value
+    #validor for name
+    @field_validator('name')
+    @classmethod
+    def transform_name(cls, value):
+        return value.upper()
+    #validor for age
+    @field_validator('age',mode = 'before')
+    @classmethod
+    def transform_age(cls, value):
+        if 0 < value < 100:
+            return value 
+        else:
+            raise ValueError("Ahge should be 0 to 100")
+
+
+
+
+
+
+
+def insert_patient_data(patient: Patient):
+    print(patient.name)
+    print(patient.age)
+    print(patient.weight)
+    print(patient.allergies)
+    print(patient.linkdin_url)
+    print(patient.email)
+    print(patient.contact_details)
+    print(patient.married)
+    print('Inserted ')
+
+
+def update_patient_data(patient: Patient):
+    print(patient.name)
+    print(patient.age)
+    print(patient.weight)
+    print(patient.allergies)
+    print(patient.linkdin_url)
+    print(patient.email)
+    print(patient.contact_details)
+    print('Updated')
+
+##################################################
+patient_info = {
+    'name': 'Ram',
+    'age': 30,  
+    'email':'xyz@icic.com',
+    'weight': 75.2,
+    'linkdin_url':'htpp:linkdin.com',
+    'married': True,
+    'allergies': ['pollen', 'dust'],
+    'contact_details': {
+        'phone': '1234567879'  
+    }
+}
+
+patient1 = Patient(**patient_info)
+insert_patient_data(patient1)
+print('--'*10)
+patient_info = {
+    'name': 'Krish',
+    'age': 30,  
+    'weight': 60.2,
+    'linkdin_url':'htpp:linkdin.com',
+    'email':'xyz@hdfc.com',
+    'contact_details': {
+        'phone': '1234567879'  
+    }
+}
+
+patient1 = Patient(**patient_info)
+insert_patient_data(patient1)
+
+# patient_info = {'name':'Ram','age':'thirty'}
+# # patient_info = {'name':'Krishna','age':30} 
+# patient1 = Patient(**patient_info)
+# insert_patient_data(patient1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def insert_paitient_data(name : str,age : int):
+#     if type(name) == str and type(age) == int:
+#         if age < 0:
+#             raise ValueError('Age can\'t be negative')    
+#         print(name)
+#         print(age)
+#         print("Inserted into the Database")
+#     else:
+#         raise TypeError('Incorrect Data type')    
+
+
+# def update_paitient_data(name : str,age : int):
+#     if type(name) == str and type(age) == int:    
+#         print(name)
+#         print(age)
+#         print("Inserted into the Database")
+#     else:
+#         raise TypeError('Incorrect Data type')    
+    
+# #Insert the deatils
+# insert_paitient_data('Ram',10) 
+# insert_paitient_data('Raj','30')     
