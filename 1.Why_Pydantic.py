@@ -1,12 +1,12 @@
-from pydantic import BaseModel,EmailStr,AnyUrl
+from pydantic import BaseModel,EmailStr,AnyUrl,Field
 from typing import List,Dict,Optional
 
 class Patient(BaseModel):
-    name :str
+    name :str = Field(max_length= 120)
     age : int
     email:EmailStr
     linkdin_url: AnyUrl
-    weight : float
+    weight : float = Field(gt = 0,lt = 120)
     # height: float
     married: bool = False
     allergies: Optional[List[str]]= None  #we should not use this list command ,List will Check the details inside the data so.
@@ -54,7 +54,7 @@ print('--'*10)
 patient_info = {
     'name': 'Krish',
     'age': 30,  
-    'weight': 75.2,
+    'weight': 60.2,
     'linkdin_url':'htpp:linkdin.com',
     'email':'xyz@gmail.com',
     'contact_details': {
