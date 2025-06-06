@@ -1,2 +1,2 @@
 ### Pydantic
-- Learning From Youtube
+- Learning From Youtube CAMPUS X channel 
