@@ -1,13 +1,15 @@
-from pydantic import BaseModel
-from typing import List,Dict
+from pydantic import BaseModel,EmailStr,AnyUrl
+from typing import List,Dict,Optional
 
 class Patient(BaseModel):
     name :str
     age : int
+    email:EmailStr
+    linkdin_url: AnyUrl
     weight : float
     # height: float
-    married: bool
-    allergies: List[str]  #we should not use this list command 
+    married: bool = False
+    allergies: Optional[List[str]]= None  #we should not use this list command ,List will Check the details inside the data so.
     contact_details: Dict[str,str] #we should this not use  dict command 
 
 def insert_patient_data(patient: Patient):
@@ -15,6 +17,10 @@ def insert_patient_data(patient: Patient):
     print(patient.age)
     print(patient.weight)
     print(patient.allergies)
+    print(patient.linkdin_url)
+    print(patient.email)
+    print(patient.contact_details)
+    print(patient.married)
     print('Inserted ')
 
 
@@ -23,17 +29,35 @@ def update_patient_data(patient: Patient):
     print(patient.age)
     print(patient.weight)
     print(patient.allergies)
+    print(patient.linkdin_url)
+    print(patient.email)
+    print(patient.contact_details)
     print('Updated')
 
 ##################################################
 patient_info = {
     'name': 'Ram',
     'age': 30,  
+    'email':'xyz@gmail.com',
     'weight': 75.2,
+    'linkdin_url':'htpp:linkdin.com',
     'married': True,
     'allergies': ['pollen', 'dust'],
     'contact_details': {
-        'email': 'abc@gmail.com',
+        'phone': '1234567879'  
+    }
+}
+
+patient1 = Patient(**patient_info)
+insert_patient_data(patient1)
+print('--'*10)
+patient_info = {
+    'name': 'Krish',
+    'age': 30,  
+    'weight': 75.2,
+    'linkdin_url':'htpp:linkdin.com',
+    'email':'xyz@gmail.com',
+    'contact_details': {
         'phone': '1234567879'  
     }
 }
