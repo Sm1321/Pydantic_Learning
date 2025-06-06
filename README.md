@@ -1,0 +1,2 @@
+### Pydantic
+- Learning From Youtube
