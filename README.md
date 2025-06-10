@@ -4,6 +4,6 @@
 
 - About these below concepts
 - Optional, Filed , Annotated,
-- field Validator
-- Model validator
-- Compute fields
+- field Validator.
+- Model validator.
+- Compute fields.
